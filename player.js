@@ -19,7 +19,12 @@ function Player()
     	//---------------------------------- media layout
         this.layout = app.CreateLayout( "Linear" );
     	//---------------------------------- onplay logo
-        this.logo = app.CreateImage("Img/radioTSF.png",-1,0.6);
+    	var c = app.GetOrientation() == "Portrait";
+        this.logo = app.CreateImage("Img/radioTSF.png",c?0.8:-1,c?-1:0.58);
+        if(c) {
+            m = (0.6 - this.logo.GetHeight()) / 2 ;
+        }
+        this.logo.SetMargins(0, m, 0, m);
         this.logo.SetOnLongTouch(function(){
             if (self.radio) {
                 var that = this;
