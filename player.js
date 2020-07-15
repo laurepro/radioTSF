@@ -13,7 +13,7 @@ function Player(headset, mediacom) {
         this.media.SetOnReady(function() {
             app.HideProgress();
             if (self.headset.GetHeadsetState()) {
-                self.mediacom.SendAvrcpMeta('radioTSF', self.radio.data.name, self.radio.data.tags);
+                self.mediacom.SendAvrcpMeta(self.radio.data.name);
                 self.media.Play();
             }
             self.status.update(true);
@@ -93,8 +93,8 @@ function Player(headset, mediacom) {
         app.HideProgress();
     }
     this.signalStart = function() {
-        if (this.headset.GetHeadsetState()) {
-            this.startPlay();
+        if (this.headset.GetHeadsetState() && this.player.IsReady()) {
+            this.player.Play();
         }
     }
     this.signalStop = function() {

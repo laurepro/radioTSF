@@ -3,34 +3,37 @@ function Settings(database, stored, scroller) {
     this.database = database;
     this.stored = stored;
     this.scroller = scroller;
+    
+    var p = app.GetOrientation() == 'Portrait';
 
     this.stations = [];
     //---------------------------------- add layout
-    this.drawer = app.CreateLayout("Linear", "Horizontal");
+    this.drawer = app.CreateLayout("Linear", p ? "Vertical" : "Horizontal");
     //---------------------------------- search dialog
     this.search = app.CreateLayout("Linear", "FillXY");
     this.search.SetBackColor("#222222");
-    this.title = app.CreateText("Community Radio Browser", 0.3, -1, "Center");
+    this.title = app.CreateText("Community Radio Browser", p ? 0.6 : 0.3, -1, "Center");
     this.title.SetTextSize(12);
-    this.title.SetMargins(0, 0, 0, 0.03);
+    this.title.SetMargins(0, 0, 0, 0.02);
     this.search.AddChild(this.title);
-    this.search.AddChild(app.CreateText(i18n.text('radio') + " :", 0.22, -1, "Left"));
-    this.radio = app.CreateTextEdit("", 0.23, -1, "SingleLine");
+    this.search.AddChild(app.CreateText(i18n.text('radio') + " :", p ? 0.52 : 0.22, -1, "Left"));
+    this.radio = app.CreateTextEdit("", p ? 0.53 : 0.23, -1, "SingleLine");
     this.search.AddChild(this.radio);
-    this.search.AddChild(app.CreateText(i18n.text('country') + " :", 0.22, -1, "Left"));
-    this.country = app.CreateTextEdit("", 0.23, -1, "SingleLine");
+    this.search.AddChild(app.CreateText(i18n.text('country') + " :", p ? 0.52 : 0.22, -1, "Left"));
+    this.country = app.CreateTextEdit("", p ? 0.53 : 0.23, -1, "SingleLine");
     this.search.AddChild(this.country);
-    this.search.AddChild(app.CreateText(i18n.text('tag') + " :", 0.22, -1, "Left"));
-    this.tags = app.CreateTextEdit("", 0.23, -1, "SingleLine");
+    this.search.AddChild(app.CreateText(i18n.text('tag') + " :", p ? 0.52 : 0.22, -1, "Left"));
+    this.tags = app.CreateTextEdit("", p ? 0.53 : 0.23, -1, "SingleLine");
     this.search.AddChild(this.tags);
-    this.button = app.CreateButton("[fa-search] " + i18n.text('search'), 0.22, -1, "FontAwesome");
+    this.button = app.CreateButton("[fa-search] " + i18n.text('search'), p ? 0.52 : 0.22, -1, "FontAwesome");
+    this.button.SetMargins(0,0,0,0.02)
     //---------------------------------- search start
     this.button.SetOnTouch(function() {
         self.list.RemoveAll();
         var rname = encodeURI(self.radio.GetText());
         var rcnty = encodeURI(self.country.GetText());
         var rtags = encodeURI(self.tags.GetText());
-        app.ShowProgress("Chargement Stations");
+        app.ShowProgress(i18n.text("searching"));
         var urlapi = "https://fr1.api.radio-browser.info/json/stations/search?name="+rname+"&country="+rcnty+"&tag="+rtags+"&ponct=";
         app.HttpRequest("GET", urlapi, "", "", function(error, response) {
             if (!error) {
@@ -67,12 +70,13 @@ function Settings(database, stored, scroller) {
     this.drawer.AddChild(this.search)
 
     //---------------------------------- select dialog
-    this.list = app.CreateList("", 0.3, 1, "FontAwesome,WhiteGrad");
+    this.list = app.CreateList("", p ? 0.6 : 0.3, 1, "FontAwesome,WhiteGrad");
     this.list.SetBackColor('silver');
     this.list.SetTextColor("black");
     this.list.SetTextColor1("black");
     this.list.SetTextColor2("black");
-    this.list.SetMargins(0, 0.01, 0, 0);
+    this.list.SetMargins(0, p ? 0 : 0.01, 0, 0);
+    this.list.p = p;
     //---------------------------------- select start
     this.list.SetOnTouch(function(title,
         body,
@@ -112,6 +116,7 @@ function Settings(database, stored, scroller) {
         this.text.SetTextSize(20);
         this.text.SetTextColor('white');
         this.text.SetOnTouchUp(function() {
+            if (self.list.p) self.list.SetSize(0.6, 1 - self.search.GetHeight());
             app.OpenDrawer("right");
         });
         return this.text;

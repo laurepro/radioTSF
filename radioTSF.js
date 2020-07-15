@@ -41,6 +41,7 @@ function OnStart() {
     objects['database'] = new Database(function(data) {
         objects['mediacom'] = app.CreateMediaCompanion();
         objects['mediacom'].SetOnSignalStatusChange(signalStatusChange);
+        objects['mediacom'].SendAvrcpMeta('radioTSF');
         objects['headset'] = app.CreateHeadsetDetector();
         objects['headset'].SetOnDeviceChange(deviceChange);
         objects['stored'] = data;
@@ -81,11 +82,11 @@ function OnBack() {
     } else if (objects['player'].isChosen()) {
         if (objects['player'].isPlaying()) {
             objects['player'].stopPlay();
-            objects['mediacom'].SendAvrcpMeta('radioTSF', '','');
+            objects['mediacom'].SendAvrcpMeta('radioTSF');
         }
         objects['player'].unChoose();
     } else {
-        objects['mediacom'].SendAvrcpMeta('radioTSF', '','');
+        objects['mediacom'].SendAvrcpMeta('radioTSF');
         app.Exit();
     }
 }
@@ -103,6 +104,7 @@ function deviceChange(state) {
                         break;
             }
             objects['status'].update();
+            app.ShowPopup(state);
     }
 
     function signalStatusChange(state) {
@@ -114,4 +116,5 @@ function deviceChange(state) {
                 objects['player'].signalStart();
                 break;
         }
+        app.ShowPopup('Signal ' + state)
     }
