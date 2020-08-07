@@ -32,7 +32,8 @@ locales = {
         "about": "radioTSF is an Internet radio player for listening with a speaker or headphones, wired or Bluetooth. Playback pauses if there is no connected device.<br><br>Adding a radio station is done from the Radio Browser community database.<br><br>Copyleft &copy; Laurent PROTT 2020<br/><br/><b>Acknowledgments</b><h2>Community Radio Browser</h2>for radio stations database<br><a href=\"http://www.radio-browser.info/\">http://www.radio-browser.info/</a><br/><br/><h2>Jason Custer</h2>for Headset Detector plugin (Droidscript)<br><a href=\"https://ds.justplayer.de/uploads/33\">https://ds.justplayer.de/uploads/33</a>",
         "favicon": "Reload icon from Internet",
         "gallery": "Load icon from file...",
-        "searching" : "Searching stations"
+        "searching" : "Searching stations",
+        "lost" : "Signal lost"
     },
     "fr": {
         "waitplug": "Brancher une enceinte",
@@ -55,6 +56,6 @@ locales = {
         "favicon": "Recharger l'icône depuis Internet",
         "gallery": "Charger un icône depuis un fichier...",
         "searching" : "Recherche des stations"
-
+        "lost" : "Signal perdu"
     }
 }

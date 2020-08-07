@@ -80,12 +80,12 @@ function Player(headset, mediacom) {
         this.loadImage = loadImage;
     }
     this.startPlay = function() {
+        this.status.update();
         if (this.radio) {
             //---------------------------------- AVRCP meta
-            this.mediacom.SendAvrcpMeta('radioTSF',i18n.text('loading') + " ... " + this.radio.data.name,'');
+            this.mediacom.SendAvrcpMeta(i18n.text('loading') + " ... " + this.radio.data.name);
             app.ShowProgress(i18n.text('loading') + " ... " + this.radio.data.name);
             this.media.SetFile(this.radio.data.url);
-            this.status.update();
         }
     }
     this.stopPlay = function() {
@@ -93,12 +93,14 @@ function Player(headset, mediacom) {
         app.HideProgress();
     }
     this.signalStart = function() {
-        if (this.headset.GetHeadsetState() && this.player.IsReady()) {
-            this.player.Play();
+        if (this.headset.GetHeadsetState()) {
+            this.startPlay();
         }
     }
     this.signalStop = function() {
-        // nop
+        this.status.update();
+        if (this.headset.GetHeadsetState() && this.player.IsReady()) {
+        this.mediacom.SendAvrcpMeta(i18n.text('lost') + " ... " + this.radio.data.name);
     }
     this.isPlaying = function() {
         return this.isChosen() && this.media.IsPlaying();

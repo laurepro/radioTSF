@@ -94,27 +94,27 @@ function OnBack() {
 function deviceChange(state) {
     switch (state) {
         case "unpluged":
-            case "disconnected":
-                case "noisy":
-                    objects['player'].stopPlay();
-                    break;
-                case "pluged":
-                    case "connected":
-                        objects['player'].startPlay();
-                        break;
-            }
-            objects['status'].update();
-            app.ShowPopup(state);
+        case "disconnected":
+        case "noisy":
+            objects['player'].stopPlay();
+            break;
+        case "pluged":
+        case "connected":
+            objects['player'].startPlay();
+            break;
     }
+    objects['status'].update();
+    app.ShowPopup(state);
+}
 
-    function signalStatusChange(state) {
-        switch (state) {
-            case "Lost":
-                objects['player'].signalStop();
-                break;
-            case "Gain":
-                objects['player'].signalStart();
-                break;
-        }
-        app.ShowPopup('Signal ' + state)
+function signalStatusChange(state) {
+    switch (state) {
+        case "Lost":
+            objects['player'].signalStop();
+            break;
+        case "Gain":
+            objects['player'].signalStart();
+            break;
     }
+    app.ShowPopup('Signal ' + state)
+}
