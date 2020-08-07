@@ -32,8 +32,11 @@ locales = {
         "about": "radioTSF is an Internet radio player for listening with a speaker or headphones, wired or Bluetooth. Playback pauses if there is no connected device.<br><br>Adding a radio station is done from the Radio Browser community database.<br><br>Copyleft &copy; Laurent PROTT 2020<br/><br/><b>Acknowledgments</b><h2>Community Radio Browser</h2>for radio stations database<br><a href=\"http://www.radio-browser.info/\">http://www.radio-browser.info/</a><br/><br/><h2>Jason Custer</h2>for Headset Detector plugin (Droidscript)<br><a href=\"https://ds.justplayer.de/uploads/33\">https://ds.justplayer.de/uploads/33</a>",
         "favicon": "Reload icon from Internet",
         "gallery": "Load icon from file...",
-        "searching" : "Searching stations",
-        "lost" : "Signal lost"
+        "searching": "Searching stations",
+        "lost": "Signal lost",
+        "gain": "Signal gain",
+        "welcome": "Welcome",
+        "playing": "Is Playing"
     },
     "fr": {
         "waitplug": "Brancher une enceinte",
@@ -55,7 +58,10 @@ locales = {
         "about": "radioTSF est un lecteur de radio Internet pour l'écoute avec une enceinte ou un casque, en filaire ou en Bluetooth. La lecture se met en pause en cas d'absence de périphérique connecté.<br><br>L'ajout de station radio est fait à partir de la base de données de la communauté Radio Browser.<br><br>Copyleft &copy; Laurent PROTT 2020<br/><br/><b>Remerciements</b><h2>Community Radio Browser</h2>pour la base de données des stations radios<br><a href=\"http://www.radio-browser.info/\">http://www.radio-browser.info/</a><br/><br/><h2>Jason Custer</h2>pour Headset Detector plugin (Droidscript)<br><a href=\"https://ds.justplayer.de/uploads/33\">https://ds.justplayer.de/uploads/33</a>",
         "favicon": "Recharger l'icône depuis Internet",
         "gallery": "Charger un icône depuis un fichier...",
-        "searching" : "Recherche des stations",
-        "lost" : "Signal perdu"
+        "searching": "Recherche des stations",
+        "lost": "Signal perdu",
+        "gain": "signal trouvé",
+        "welcome": "Bienvenue",
+        "playing": "Lecture en cours"
     }
 }

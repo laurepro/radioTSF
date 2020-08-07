@@ -6,6 +6,9 @@ function Player(headset, mediacom) {
     this.setStatus = function(status) {
         this.status = status;
     }
+    this.setNotification = function(notification) {
+        this.notification = notification;
+    }
     this.getGui = function() {
         //---------------------------------- media player
         this.media = app.CreateMediaPlayer();
@@ -14,6 +17,7 @@ function Player(headset, mediacom) {
             app.HideProgress();
             if (self.headset.GetHeadsetState()) {
                 self.mediacom.SendAvrcpMeta(self.radio.data.name);
+                self.notification.message(self.radio.data.name, i18n.text('playing'));
                 self.media.Play();
             }
             self.status.update(true);
@@ -78,16 +82,22 @@ function Player(headset, mediacom) {
         if (this.radio) {
             //---------------------------------- AVRCP meta
             this.mediacom.SendAvrcpMeta(i18n.text('loading') + " ... " + this.radio.data.name);
+            this.notification.message(this.radio.data.name, i18n.text('loading'));
+            this.notification.setLogo(this.radio.data.favicon);
             app.ShowProgress(i18n.text('loading') + " ... " + this.radio.data.name);
             this.media.SetFile(this.radio.data.url);
         }
     }
     this.stopPlay = function() {
         this.media.Stop();
+        if (this.radio) {
+            this.notification.message(this.radio.data.name, i18n.text('waitplug'));
+        }
         app.HideProgress();
     }
     this.signalStart = function() {
         if (this.headset.GetHeadsetState()) {
+            this.notification.message(self.radio.data.name, i18n.text('gain'));
             this.startPlay();
         }
     }
@@ -95,6 +105,7 @@ function Player(headset, mediacom) {
         this.status.update();
         if (this.headset.GetHeadsetState() && this.player.IsReady()) {
             this.mediacom.SendAvrcpMeta(i18n.text('lost') + " ... " + this.radio.data.name);
+            this.notification.message(self.radio.data.name, i18n.text('lost'));
         }
     }
     this.isPlaying = function() {
@@ -102,11 +113,14 @@ function Player(headset, mediacom) {
     }
     this.resetLogo = function() {
         this.logo.SetImage(image_directory + "/" + this.radio.data.uuid, this.logo.GetWidth(), -1);
+        this.notification.setLogo(image_directory + "/" + this.radio.data.uuid);
     }
     this.choose = function(radio) {
         this.radio = radio;
         this.text.SetText(radio.data.name);
         this.resetLogo();
+        this.notification.message(this.radio.data.name, i18n.text('waitplug'));
+
         if (this.headset.GetHeadsetState()) this.startPlay();
         this.status.update(false);
     }

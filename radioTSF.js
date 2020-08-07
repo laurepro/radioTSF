@@ -11,6 +11,7 @@ app.LoadScript("i18n.js")
 app.LoadScript("radio.js");
 app.LoadScript("player.js");
 app.LoadScript("status.js");
+app.LoadScript("notification.js");
 app.LoadScript("database.js");
 app.LoadScript("settings.js");
 app.LoadScript("scroller.js");
@@ -47,7 +48,9 @@ function OnStart() {
         objects['stored'] = data;
         objects['player'] = new Player(objects['headset'], objects['mediacom']);
         objects['status'] = new Status(objects['player'], objects['headset']);
+        objects['notification'] = new Notification(objects['player'], objects['headset']);
         objects['player'].setStatus(objects['status']);
+        objects['player'].setNotification(objects['notification']);
         objects['scroll'] = new Scroller(objects['database'], objects['stored'], objects['player']);
         objects['settings'] = new Settings(objects['database'], objects['stored'], objects['scroll']);
 
@@ -71,6 +74,7 @@ function OnStart() {
         for (uuid in objects['stored']) {
             objects['scroll'].addRadio(uuid)
         };
+        objects['notification'].init("Img/radioTSF.png",i18n.text('welcome'),i18n.text('choose'));
     });
 
 }
@@ -84,9 +88,11 @@ function OnBack() {
             objects['player'].stopPlay();
             objects['mediacom'].SendAvrcpMeta('radioTSF');
         }
+        objects['notification'].reset();
         objects['player'].unChoose();
     } else {
-        objects['mediacom'].SendAvrcpMeta('radioTSF');
+        objects['mediacom'].SendAvrcpMeta('');
+        objects['notification'].cancel();
         app.Exit();
     }
 }
