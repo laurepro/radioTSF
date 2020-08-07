@@ -26,10 +26,7 @@ function Player(headset, mediacom) {
             c?0.8: -1,
             c?-1: 0.58);
         var m = c ? (0.6 - this.logo.GetHeight()) / 2: 0;
-        this.logo.SetMargins(0,
-            m,
-            0,
-            m);
+        this.logo.SetMargins(0, m, 0, m);
         this.logo.SetOnLongTouch(function() {
             if (self.radio) {
                 var that = this;
@@ -59,15 +56,12 @@ function Player(headset, mediacom) {
         });
         this.layout.AddChild(this.logo);
         //---------------------------------- media_onplay text
-        this.text = app.CreateText("",
-            0.8,
-            0.06);
+        this.text = app.CreateText("", 0.8, 0.06);
         this.text.SetTextSize(15);
         this.text.SetTextColor('white');
         this.layout.AddChild(this.text);
         //---------------------------------- Control volume
-        this.volume = app.CreateSeekBar(0.8,
-            0.06);
+        this.volume = app.CreateSeekBar(0.8, 0.06);
         this.volume.SetRange(100);
         this.volume.SetValue(app.GetVolume("Music")*100);
         this.volume.SetOnChange(function() {
@@ -100,7 +94,8 @@ function Player(headset, mediacom) {
     this.signalStop = function() {
         this.status.update();
         if (this.headset.GetHeadsetState() && this.player.IsReady()) {
-        this.mediacom.SendAvrcpMeta(i18n.text('lost') + " ... " + this.radio.data.name);
+            this.mediacom.SendAvrcpMeta(i18n.text('lost') + " ... " + this.radio.data.name);
+        }
     }
     this.isPlaying = function() {
         return this.isChosen() && this.media.IsPlaying();
