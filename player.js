@@ -16,7 +16,7 @@ function Player(headset, mediacom) {
         this.media.SetOnReady(function() {
             app.HideProgress();
             if (self.headset.GetHeadsetState()) {
-                self.mediacom.SendAvrcpMeta(self.radio.data.name);
+                if (mediacom) self.mediacom.SendAvrcpMeta(self.radio.data.name);
                 self.notification.message(self.radio.data.name, i18n.text('playing'));
                 self.media.Play();
             }
@@ -81,7 +81,7 @@ function Player(headset, mediacom) {
         this.status.update();
         if (this.radio) {
             //---------------------------------- AVRCP meta
-            this.mediacom.SendAvrcpMeta(i18n.text('loading') + " ... " + this.radio.data.name);
+            if (mediacom) this.mediacom.SendAvrcpMeta(i18n.text('loading') + " ... " + this.radio.data.name);
             this.notification.message(this.radio.data.name, i18n.text('loading'));
             this.notification.setLogo(this.radio.data.favicon);
             app.ShowProgress(i18n.text('loading') + " ... " + this.radio.data.name);
@@ -104,7 +104,7 @@ function Player(headset, mediacom) {
     this.signalStop = function() {
         this.status.update();
         if (this.headset.GetHeadsetState() && this.player.IsReady()) {
-            this.mediacom.SendAvrcpMeta(i18n.text('lost') + " ... " + this.radio.data.name);
+            if (mediacom) this.mediacom.SendAvrcpMeta(i18n.text('lost') + " ... " + this.radio.data.name);
             this.notification.message(self.radio.data.name, i18n.text('lost'));
         }
     }
