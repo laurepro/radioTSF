@@ -21,10 +21,12 @@ var
 i18n = {},
 image_directory = "/sdcard/radioTSF",
 objects = {},
-apiLevel = app.GetOSVersion() >= 21;
+apiLevel = true;
 
 //démarrage
 function OnStart() {
+    
+    apiLevel = app.GetOSVersion() >= 21;
     
     // chargement des traductions
     i18n = new I18n(app.GetLanguageCode());
@@ -41,14 +43,14 @@ function OnStart() {
 
     // chargement des radios enregistrées
     objects['database'] = new Database(function(data) {
-        // pas de mediacom en dessous de lollipop
+        // pas de mediacom avant lollipop
         if(apiLevel) {
             objects['mediacom'] = app.CreateMediaCompanion();
             objects['mediacom'].SetOnSignalStatusChange(signalStatusChange);
             objects['mediacom'].SendAvrcpMeta('radioTSF');
         }
         else {
-            objects['mediacom'] = null;
+            objects['mediacom'] = false;
         }
         objects['headset'] = app.CreateHeadsetDetector();
         objects['headset'].SetOnDeviceChange(deviceChange);
@@ -93,7 +95,7 @@ function OnBack() {
     } else if (objects['player'].isChosen()) {
         if (objects['player'].isPlaying()) {
             objects['player'].stopPlay();
-            if(apiLevel) objects['mediacom'].SendAvrcpMeta('radioTSF');
+            if (apiLevel) objects['mediacom'].SendAvrcpMeta('radioTSF');
         }
         objects['notification'].reset();
         objects['player'].unChoose();
